@@ -1,6 +1,7 @@
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import com.sun.net.httpserver.spi.HttpServerProvider
+import java.io.File
 import java.io.IOException
 import java.net.InetSocketAddress
 
@@ -36,7 +37,7 @@ object HttpServerTest {
                 val url = httpExchange.requestURI
                 println("启动服务器" + url.rawPath)
                 val requestBody = httpExchange.requestBody
-                val count = 100000
+                val count = 300000
                 val b = ByteArray(count)
                 var readCount = 0
                 while (true) {
@@ -45,6 +46,9 @@ object HttpServerTest {
                         break
                     }
                 }
+                println("hao")
+                File("fuck.pcm").writeBytes(b)
+
             }
         }
     }
