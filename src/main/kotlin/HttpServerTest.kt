@@ -13,29 +13,27 @@ object HttpServerTest {
     @Throws(IOException::class)
     @JvmStatic
     fun main(args: Array<String>) {
-        val fuck=File("esp32.mp3").readBytes()
-        var remain=fuck.size
-        println("fuck "+fuck.size)
+        File("fuck.pcm").delete()
+        val fuck=File("fuck.pcm")
        Thread{
+           val aa=ByteArray(1024)
            server = ServerSocket(8899)
            mySocket= server.accept()
-           while (remain>0){
-                if(remain>1024){
-                    send(fuck.copyOfRange(remain-1024,remain))
-                }else{
-                    send(fuck.copyOfRange(0,remain))
-                }
+           while (true){
+               val ll= mySocket.getInputStream().read(aa)
+               if(ll<0){
+                   break;
+               }
+               if(ll>0){
+                   fuck.appendBytes(aa.copyOfRange(0,ll))
+               }
            }
            mySocket.close()
 
        }.start()
     }
 
-    fun send(b: ByteArray) {
-        val output = mySocket.getOutputStream()
-        output.write(b)
-        output.flush()
-    }
+
 
 
 }
